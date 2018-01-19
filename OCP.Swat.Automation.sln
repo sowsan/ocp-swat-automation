@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26906.1
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCP.Swat.Automation", "OCP.Swat.Automation\OCP.Swat.Automation.csproj", "{0F55AE43-BA4B-495F-8458-E2FC762A6648}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCP.POD.Import", "OCP.POD.Import\OCP.POD.Import.csproj", "{41B94F05-7F33-4991-95D4-8A29783A5CF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCP.Workload.Export", "OCP.Workload.Export\OCP.Workload.Export.csproj", "{524FCA24-9BC8-42D2-856A-79147D492C38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{41B94F05-7F33-4991-95D4-8A29783A5CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41B94F05-7F33-4991-95D4-8A29783A5CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41B94F05-7F33-4991-95D4-8A29783A5CF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{524FCA24-9BC8-42D2-856A-79147D492C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{524FCA24-9BC8-42D2-856A-79147D492C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{524FCA24-9BC8-42D2-856A-79147D492C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{524FCA24-9BC8-42D2-856A-79147D492C38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

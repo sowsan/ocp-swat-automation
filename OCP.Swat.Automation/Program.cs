@@ -26,7 +26,7 @@ namespace OCP.Swat.Automation
             Console.ForegroundColor = defaultForeground;
             SecureString password = GetPasswordFromConsoleInput();
 
-            using (context = new ClientContext("https://url"))
+            using (context = new ClientContext("https://microsoft.sharepoint.com/teams/USDXISVCJ"))
             {
                 context.Credentials = new SharePointOnlineCredentials(userName, password);
                 context.Load(context.Web, w => w.Title);
@@ -35,7 +35,7 @@ namespace OCP.Swat.Automation
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Your site title is: " + context.Web.Title);
                 Console.ForegroundColor = defaultForeground;
-                UpdateSwarmFilterFields(context);
+                UpdateFilterFields(context);
                 /*
                 // Assume the web has a list named "Announcements". 
                 List swarmList = context.Web.Lists.GetByTitle("Swarm Form");               
@@ -165,23 +165,23 @@ namespace OCP.Swat.Automation
 
         private static void UpdateFilterFields(ClientContext context)
         {
+            string TXT_Lead_Archiect = string.Empty;
+            string TXT_PTS_TE = string.Empty;
+            string TXT_Request_Status = string.Empty;
+            string TXT_Supp_Arch1 = string.Empty;
+            string TXT_Supp_Arch2 = string.Empty;
+            string TXT_Supp_Arch3 = string.Empty;
+            string TXT_Supp_Arch4 = string.Empty;
+
             try
             {
-                List swarmList = context.Web.Lists.GetByTitle("Swat Form");
-
-
-                // This creates a CamlQuery that has a RowLimit of 100, and also specifies Scope="RecursiveAll" 
-                // so that it grabs all list items, regardless of the folder they are in. 
+                List swarmList = context.Web.Lists.GetByTitle("Swarm Form");
+                
                 CamlQuery query = CamlQuery.CreateAllItemsQuery(3000);
-
-                /* query.ViewXml = "<View><ViewFields><FieldRef Name='ID'/>" +
-                    "<FieldRef Name='Title'/><FieldRef Name='Request Status'/>" +
-                    "</ViewFields><RowLimit>5</RowLimit></View>";*/
-
 
                 ListItemCollection swatItems = swarmList.GetItems(query);
 
-                  context.Load(
+                /*  context.Load(
                   swatItems,
                   items => items.Take(3000).Include(
                   item => item["Title"],
@@ -191,10 +191,10 @@ namespace OCP.Swat.Automation
                   item => item["TXT_Swarm_Request"],
                   item => item["Lead_x0020_Architect"],
                   item => item["Supporting_x0020_Architects"]
-                ));
+                ));*/
 
 
-               /* context.Load(
+                context.Load(
                 swatItems,
                 items => items.Take(2000).Include(
                 item => item["Title"],
@@ -203,8 +203,9 @@ namespace OCP.Swat.Automation
                 item => item["TXT_PTS_TE"],
                 item => item["PTS0"],
                 item => item["Assigned_x0020_Swarm_x0020_Archi"],
-                item => item["Swarm_x0020_Supporting_x0020_Arc"]
-              ));*/
+                item => item["Swarm_x0020_Supporting_x0020_Arc"],
+                item => item["Request_x0020_Status"]
+              ));
 
                 // Retrieve all items in the ListItemCollection from List.GetItems(Query). 
 
@@ -216,8 +217,6 @@ namespace OCP.Swat.Automation
                 textFields.Add("TXT_Supp_Arch3");
                 textFields.Add("TXT_Supp_Arch4");
 
-
-
                 Console.WriteLine("Total Items " + swatItems.Count.ToString());
 
                 int updated = 0;
@@ -225,7 +224,11 @@ namespace OCP.Swat.Automation
 
                 foreach (ListItem swatItem in swatItems)
                 {
-                    /*if(swatItem["Swarm_x0020_Supporting_x0020_Arc"] != null)
+                    //if(swatItem["Request_x0020_Status"] == "Pod Assigned")
+                    //{
+
+                    //}
+                    if(swatItem["Swarm_x0020_Supporting_x0020_Arc"] != null)
                     {
                         FieldUserValue[] architects = swatItem["Swarm_x0020_Supporting_x0020_Arc"] as FieldUserValue[];
 
@@ -234,7 +237,10 @@ namespace OCP.Swat.Automation
                         for (int i = 0; i < count; i++)
                         {
                             if (i <= 3)
+                            {                             
                                 swatItem[textFields[i]] = architects[i].LookupValue;
+                            }
+                               
                             else
                             {
                                 morethan4Architects++;
@@ -252,24 +258,24 @@ namespace OCP.Swat.Automation
                     if(swatItem["PTS0"] != null)
                     {
                         swatItem["TXT_PTS_TE"] = ((FieldUserValue)swatItem["PTS0"]).LookupValue;
-                    }*/
+                    }
 
                     /*
                      * swat activity
-                     */
+                    
                     if (swatItem["TXT_Lead_Architect"] == null && swatItem["TXT_Swarm_Request"] == null)
                       {
 
                         //swatItem["TXT_Lead_Architect"] = ((FieldLookupValue)swatItem["Lead_x0020_Architect"]).LookupValue;
                        // swatItem["TXT_Swarm_Request"] = ((FieldLookupValue)swatItem["Swarm_x0020_Request"]).LookupValue;
                        // Console.WriteLine(((FieldLookupValue)swatItem["Swarm_x0020_Request"]).LookupValue);
-                      }
+                      } */
 
-                    swatItem["TXT_Swarm_Request"] = ((FieldLookupValue)swatItem["Swarm_x0020_Request"]).LookupValue;
+                    swatItem["TXT_Request_Status"] = swatItem["Request_x0020_Status"];
 
                     swatItem.Update();
-                     context.ExecuteQuery();
-                     updated++;
+                    context.ExecuteQuery();
+                    updated++;
                      Console.WriteLine("updated " + updated.ToString());
 
                    // Console.WriteLine(swatItem["ID"].ToString() + " **hidden is**  " + ((FieldLookupValue)swatItem["Swarm_x0020_Request"]).LookupValue + " **hidden is** " + swatItem["TXT_Swarm_Request"].ToString());
